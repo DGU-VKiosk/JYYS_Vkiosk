@@ -14,9 +14,9 @@ def is_swip(pre_x, cur_x, pre_y, cur_y, landmarks):
         dy = cur_y - pre_y
         if abs(dx) > SWIPE_THRESHOLD:
             if dx > 0:
-                return "left"
-            elif dx < 0:
                 return "right"
+            elif dx < 0:
+                return "left"
             
         if abs(dy) > SWIPE_THRESHOLD:
             if dy > 0:

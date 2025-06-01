@@ -71,30 +71,19 @@ public class UdpReceiver : MonoBehaviour
 
     void Update()
     {
+        GetAndSendGestrue();
+    }
+
+    private void GetAndSendGestrue()
+    {
         lock (gestureQueue)
         {
             while (gestureQueue.Count > 0)
             {
                 Debug.Log("Update Tick");
-                var (gesture, pos) = gestureQueue.Dequeue();
-                HandleGesture(gesture, pos);
+                var (gesture, handPos) = gestureQueue.Dequeue();
+                gestureManager.UpdateGestureFromNetwork(gesture, handPos);
             }
-        }
-    }
-
-    private void HandleGesture(string gesture, Vector3 pos)
-    {
-        Debug.Log($"Received gesture: {gesture} at {pos}");
-
-        UpdateGestureFromNetwork(gesture, pos);
-    }
-
-    public void UpdateGestureFromNetwork(string gesture, Vector3 pos)
-    {
-        switch (gesture)
-        {
-            case "click": Debug.Log("Click!"); break;
-            case "fist": Debug.Log("Fist!"); break;
         }
     }
 

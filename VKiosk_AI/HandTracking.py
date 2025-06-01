@@ -66,6 +66,7 @@ def detect_and_draw_hands(frame, person_boxes, registered_id, track_ids):
                         direction = "Right Swipe"
                         if swiping == False:
                             swiping = True
+                        send_gesture("right_swipe", wrist.x, wrist.y)
                         cv2.putText(frame, direction, (hand_x, hand_y - 40),
                                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (200, 0, 0), 2)
 
@@ -73,6 +74,7 @@ def detect_and_draw_hands(frame, person_boxes, registered_id, track_ids):
                         direction = "Left Swipe"
                         if swiping == False:
                             swiping = True
+                        send_gesture("left_swipe", wrist.x, wrist.y)
                         cv2.putText(frame, direction, (hand_x, hand_y - 40),
                                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (200, 0, 0), 2)    
                         
@@ -80,6 +82,7 @@ def detect_and_draw_hands(frame, person_boxes, registered_id, track_ids):
                         direction = "Up Swipe"
                         if swiping == False:
                             swiping = True
+                        send_gesture("up_swipe", wrist.x, wrist.y)
                         cv2.putText(frame, direction, (hand_x, hand_y - 40),
                                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (200, 0, 0), 2)  
                         
@@ -87,6 +90,7 @@ def detect_and_draw_hands(frame, person_boxes, registered_id, track_ids):
                         direction = "Down Swipe"
                         if swiping == False:
                             swiping = True
+                        send_gesture("down_swipe", wrist.x, wrist.y)
                         cv2.putText(frame, direction, (hand_x, hand_y - 40),
                                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (200, 0, 0), 2)  
                         
