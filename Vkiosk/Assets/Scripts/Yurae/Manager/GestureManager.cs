@@ -20,12 +20,12 @@ public class GestureManager : MonoBehaviour
                 sphereController.MenuToCategory();
                 break;
             case "left_swipe":
-                windowManager.RotationWindow(-1);
-                break;
-            case "right_swipe":
                 windowManager.RotationWindow(1);
                 break;
-            case "grap": windowGrabber.GrabWindow(); break;
+            case "right_swipe":
+                windowManager.RotationWindow(-1);
+                break;
+            case "grab": windowGrabber.GrabWindow(); break;
             case "drop": windowGrabber.DropWindow(); break;
         }
     }

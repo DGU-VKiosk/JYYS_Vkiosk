@@ -1,8 +1,7 @@
 from Camera import *
-from PersonDetection import draw_person_boxes
+from PersonDetection import draw_person_boxes, track_persons
 from HandTracking import detect_hands
 from UserRegister import user_registration, user_unregisteration, draw_zone
-from Tracker import track_persons
 
 import cv2
 import time
@@ -17,14 +16,11 @@ boxes = []
 track_ids = []
 
 prev_time = time.time()
-frame_count = 0
 
 while True:
     start_time = time.time()        
     frame = get_camera_frame(cap)   # Get camera frame
-    frame_count += 1
 
-    #if frame_count % 3 == 0:
     boxes, track_ids = track_persons(frame) # Get Person's box and id
 
     # Update registered id

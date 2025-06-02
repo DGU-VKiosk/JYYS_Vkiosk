@@ -6,7 +6,7 @@ public class WindowGrabber : MonoBehaviour
 {
     private Camera mainCamera;
 
-    private GameObject grabbedWindow = null;        
+    [SerializeField] private GameObject grabbedWindow = null;        
     private float grabDistance = 0f;              
     private Vector3 grabOffset;
 
