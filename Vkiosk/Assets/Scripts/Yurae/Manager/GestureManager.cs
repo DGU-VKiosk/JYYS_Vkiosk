@@ -7,7 +7,7 @@ public class GestureManager : MonoBehaviour
     [SerializeField] private WindowGrabber windowGrabber;
     [SerializeField] private ViewController sphereController;
 
-    public void UpdateGestureFromNetwork(string gesture, Vector3 pos)
+    public void UpdateGestureFromNetwork(string gesture)
     {
         WindowManager windowManager = FindObjectOfType<WindowManager>();
 

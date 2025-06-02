@@ -1,114 +1,128 @@
-import mediapipe as mp
 import cv2
 import pyautogui
-from HandGesture import *
+import mediapipe as mp
+from HandGesture import is_grab, is_swip, is_click, is_index
 from SocketSender import send_gesture
 
+# Mediapipe Hand / Mediapipe Draw
 mp_hands = mp.solutions.hands
-hands = mp_hands.Hands(static_image_mode=False, max_num_hands=2, min_detection_confidence=0.7)
+hands = mp_hands.Hands(static_image_mode=False, max_num_hands=1, min_detection_confidence=0.7)
 mp_draw = mp.solutions.drawing_utils
 
-prev_positions = {}
-
+# Screen : Weight / Height
 screen_w, screen_h = pyautogui.size()
 
-swiping = False;
-dragging = False;
+# Previous Position
+prev_positions = {}
 
+# State
+prev_state = None
+
+# Judge hand inside box
 def hand_inside_box(x, y, box):
     x1, y1, x2, y2 = box
     return x1 <= x <= x2 and y1 <= y <= y2
 
-def detect_and_draw_hands(frame, person_boxes, registered_id, track_ids):
+def detect_hands(frame, person_boxes, registered_id, track_ids):
+    global prev_state
+    cur_state = None
+
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     results = hands.process(rgb)
-
-    global swiping
-    global dragging
-
+    
     if results.multi_hand_landmarks and results.multi_handedness:
         for i, hand_landmarks in enumerate(results.multi_hand_landmarks):
+
             handedness = results.multi_handedness[i].classification[0].label
+
             if handedness != "Right":
                 continue  # Ignore left hand
 
-            wrist = hand_landmarks.landmark[0]                  # Get wrist
-            h, w, _ = frame.shape                               # Get frame shape
-            hand_x, hand_y = int(wrist.x * w), int(wrist.y * h) # Coordinate transformation
+            criteria_idx = hand_landmarks.landmark[0]                           # Get wrist
+            h, w, _ = frame.shape                                               # Get frame shape
+            hand_x, hand_y = int(criteria_idx.x * w), int(criteria_idx.y * h)   # Coordinate transformation
 
             matched = False                                   
+
             for j, box in enumerate(person_boxes):              # Check all person box and link hand
                 if hand_inside_box(hand_x, hand_y, box):        
-                    tid = track_ids[j]
-                    if tid == registered_id:
+                    if track_ids[j] == registered_id:
                         matched = True
                         break
             
             # Check registered person
             if matched:
-                mp_draw.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+                #mp_draw.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
                 key = f"hand_{registered_id}"
-
-                screen_x = int(wrist.x * screen_w)
-                screen_y = int(wrist.y * screen_h)
 
                 if key in prev_positions:
                     prev_x, prev_y = prev_positions[key]
 
-                    if is_fist(hand_landmarks.landmark):
-                        if not dragging:
-                            pyautogui.mouseDown(screen_x, screen_y)
-                            dragging = True
-                        cv2.putText(frame, "Fist", (hand_x, hand_y - 40),
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+                    if is_grab(hand_landmarks.landmark):
+                        cur_state = "grab"
+                        if cur_state != prev_state:
+                            send_gesture(cur_state)
+                            print(cur_state)
                         
                     elif is_swip(prev_x, hand_x, prev_y, hand_y, hand_landmarks.landmark) == "right":
-                        direction = "Right Swipe"
-                        if swiping == False:
-                            swiping = True
-                        send_gesture("right_swipe", wrist.x, wrist.y)
-                        cv2.putText(frame, direction, (hand_x, hand_y - 40),
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (200, 0, 0), 2)
+                        cur_state = "right_swipe"
+                        if cur_state != prev_state:
+                            send_gesture(cur_state)
+                            print(cur_state)
 
                     elif is_swip(prev_x, hand_x, prev_y, hand_y, hand_landmarks.landmark) == "left":
-                        direction = "Left Swipe"
-                        if swiping == False:
-                            swiping = True
-                        send_gesture("left_swipe", wrist.x, wrist.y)
-                        cv2.putText(frame, direction, (hand_x, hand_y - 40),
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (200, 0, 0), 2)    
+                        cur_state = "left_swipe"
+                        if cur_state != prev_state:
+                            send_gesture(cur_state)
+                            print(cur_state)
                         
                     elif is_swip(prev_x, hand_x, prev_y, hand_y, hand_landmarks.landmark) == "up":
-                        direction = "Up Swipe"
-                        if swiping == False:
-                            swiping = True
-                        send_gesture("up_swipe", wrist.x, wrist.y)
-                        cv2.putText(frame, direction, (hand_x, hand_y - 40),
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (200, 0, 0), 2)  
+                        cur_state = "up_swipe"
+                        if cur_state != prev_state:
+                            send_gesture(cur_state)
+                            print(cur_state)
                         
                     elif is_swip(prev_x, hand_x, prev_y, hand_y, hand_landmarks.landmark) == "down":
-                        direction = "Down Swipe"
-                        if swiping == False:
-                            swiping = True
-                        send_gesture("down_swipe", wrist.x, wrist.y)
-                        cv2.putText(frame, direction, (hand_x, hand_y - 40),
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (200, 0, 0), 2)  
+                        cur_state = "down_swipe"
+                        if cur_state != prev_state:
+                            send_gesture(cur_state)
+                            print(cur_state)  
+
+                    elif is_index(hand_landmarks.landmark):
+                        cur_state = "index"
+                        if cur_state != prev_state:
+                            print(cur_state)
                         
-                    elif is_click(prev_y, hand_y, hand_landmarks.landmark):
-                        pyautogui.click()   # Click
-                        send_gesture("click", wrist.x, wrist.y)
-                        cv2.putText(frame, "Click", (hand_x, hand_y - 40),
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 200), 2)   
                         
-                    else :
-                        if dragging:
-                            pyautogui.mouseUp(screen_x, screen_y)
-                            dragging = False
-                        cv2.putText(frame, "Default", (hand_x, hand_y - 40),
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (200, 150, 0), 2)  
+                    else:
+                        # Drop
+                        if prev_state == "grab":
+                            cur_state = "drop"
+                            if cur_state != prev_state:
+                                send_gesture(cur_state)
+                                print("drop")  
+
+                        # Click
+                        elif prev_state == "index":
+                            if is_click(hand_landmarks.landmark):
+                                pyautogui.click()
+                                cur_state = "click"
+                                if cur_state != prev_state:
+                                    send_gesture(cur_state)
+                                    print(cur_state)
+
+                        # Default
+                        else:
+                            cur_state = "default"
+                            if cur_state != prev_state:
+                                print("default") 
+
+                prev_state = cur_state  # Update State
+
+                screen_x = int(criteria_idx.x * screen_w)   
+                screen_y = int(criteria_idx.y * screen_h)
                     
-                pyautogui.moveTo(screen_x, screen_y, duration=0.05)
+                pyautogui.moveTo(screen_x, screen_y, duration=0)
 
                 prev_positions[key] = (hand_x, hand_y)
-                cv2.putText(frame, "Registered User Hand", (hand_x, hand_y - 10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
+    

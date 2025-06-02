@@ -5,19 +5,14 @@ def person_in_zone(x1, y1, x2, y2, zone):
     cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
     return zx1 <= cx <= zx2 and zy1 <= cy <= zy2
 
-def user_registration(person_boxes, zone, current_id, track_ids):
-    if current_id is not None:
-        return current_id
+def user_registration(person_boxes, zone, track_ids):
     for i, (x1, y1, x2, y2) in enumerate(person_boxes):
         if person_in_zone(x1, y1, x2, y2, zone):
-            print("User registration completed", track_ids[i])
+            print("User registration completed :", track_ids[i])
             return track_ids[i]
     return None
 
 def user_unregisteration(current_id, track_ids): 
-    if current_id is None:
-        return None  
-    
     if current_id not in track_ids:
         print("User missing")
         return None

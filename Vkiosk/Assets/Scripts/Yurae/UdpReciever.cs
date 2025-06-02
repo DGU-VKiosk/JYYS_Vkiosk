@@ -18,7 +18,7 @@ public class UdpReceiver : MonoBehaviour
 
     private UdpClient udpClient;
     private Thread thread;
-    private Queue<(string, Vector3)> gestureQueue = new Queue<(string, Vector3)>();
+    private Queue<string> gestureQueue = new Queue<string>();
 
     void Start()
     {
@@ -53,13 +53,10 @@ public class UdpReceiver : MonoBehaviour
 
                 // Get Json
                 string gesture = parsed["gesture"].ToString();
-                float x = (float)parsed["position"]["x"];
-                float y = (float)parsed["position"]["y"];
-                float z = (float)parsed["position"]["z"];
 
                 lock (gestureQueue)
                 {
-                    gestureQueue.Enqueue((gesture, new Vector3(x, y, z)));
+                    gestureQueue.Enqueue(gesture);
                 }
             }
             catch (System.Exception e)
@@ -80,9 +77,9 @@ public class UdpReceiver : MonoBehaviour
         {
             while (gestureQueue.Count > 0)
             {
-                Debug.Log("Update Tick");
-                var (gesture, handPos) = gestureQueue.Dequeue();
-                gestureManager.UpdateGestureFromNetwork(gesture, handPos);
+                var gesture = gestureQueue.Dequeue();
+                Debug.Log(gesture);
+                gestureManager.UpdateGestureFromNetwork(gesture);
             }
         }
     }

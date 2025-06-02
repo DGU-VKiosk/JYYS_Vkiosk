@@ -7,7 +7,7 @@ using DG.Tweening;
 [DisallowMultipleComponent]
 public class WindowManager : MonoBehaviour
 {
-    [Header("È¸Àü¿¡ °É¸®´Â ½Ã°£")]
+    [Header("È¸ï¿½ï¿½ï¿½ï¿½ ï¿½É¸ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½")]
     [SerializeField] private float rotationTime = 0.5f;
     private Window[] windows;
     private Window currentWindow;

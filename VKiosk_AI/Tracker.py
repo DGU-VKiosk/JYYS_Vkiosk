@@ -1,29 +1,36 @@
 from ultralytics import YOLO
 from deep_sort_realtime.deepsort_tracker import DeepSort
 
-yolo_model = YOLO("yolov8n.pt")
+yolo_model = YOLO("yolov8n.pt") # YOLO model
 
-tracker = DeepSort(max_age=15)
+tracker = DeepSort(max_age=15) # DeepSort tracker
+
+conf_criteria = 0.5
+min_weight = 60
+min_height = 100
 
 def track_persons(frame):
     # Detect person using YOLO per frame
     results = yolo_model(frame, verbose=False)[0]
     detections = []
 
-    # Check bound boxes of people
+    # Check all detected objects
     for result in results.boxes:
         
+        # Check Person
         if yolo_model.names[int(result.cls[0])] == "person":
             x1, y1, x2, y2 = map(int, result.xyxy[0])
             w, h = x2 - x1, y2 - y1
-            conf = float(result.conf[0])
+            conf = float(result.conf[0])    # Confidence Score
 
-            if conf < 0.5:
+            # Ignore Condition
+            if conf < conf_criteria:
                 continue
-            if w < 60 or h < 100:
+            if w < min_weight or h < min_height:
                 continue
 
             detections.append(([x1, y1, w, h], conf, 'person')) # For DeepSort
+            
     tracks = tracker.update_tracks(detections, frame = frame) # Tracking
 
     person_boxes = []
