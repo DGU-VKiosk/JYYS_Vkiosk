@@ -1,7 +1,7 @@
 import cv2
 import pyautogui
 import mediapipe as mp
-from HandGesture import is_grab, is_swip, is_click, is_index
+from HandGesture import is_grab, is_swip, is_index
 from SocketSender import send_gesture
 
 # Mediapipe Hand / Mediapipe Draw
@@ -59,7 +59,11 @@ def detect_hands(frame, person_boxes, registered_id, track_ids):
                     prev_x, prev_y = prev_positions[key]
 
                     if is_grab(hand_landmarks.landmark):
-                        cur_state = "grab"
+                        if prev_state == "index":
+                            pyautogui.click()
+                            cur_state = "click"
+                        else:
+                            cur_state = "grab"
                         if cur_state != prev_state:
                             send_gesture(cur_state)
                             print(cur_state)
@@ -91,6 +95,8 @@ def detect_hands(frame, person_boxes, registered_id, track_ids):
                     elif is_index(hand_landmarks.landmark):
                         cur_state = "index"
                         if cur_state != prev_state:
+                            if prev_state == "grab":
+                                send_gesture("drop")
                             print(cur_state)
                         
                         
@@ -101,15 +107,6 @@ def detect_hands(frame, person_boxes, registered_id, track_ids):
                             if cur_state != prev_state:
                                 send_gesture(cur_state)
                                 print("drop")  
-
-                        # Click
-                        elif prev_state == "index":
-                            if is_click(hand_landmarks.landmark):
-                                pyautogui.click()
-                                cur_state = "click"
-                                if cur_state != prev_state:
-                                    send_gesture(cur_state)
-                                    print(cur_state)
 
                         # Default
                         else:
