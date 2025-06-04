@@ -4,9 +4,14 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class WindowGrabber : MonoBehaviour
 {
+    [Header("장바구니에 담긴 위한 최소 y 좌표")]
+    [SerializeField] private float minYAxis = -0.6f;
+
+    [SerializeField] private CartManager cartManager;
+
     private Camera mainCamera;
 
-    [SerializeField] private GameObject grabbedWindow = null;        
+    private GameObject grabbedWindow = null;        
     private float grabDistance = 0f;              
     private Vector3 grabOffset;
 
@@ -67,7 +72,15 @@ public class WindowGrabber : MonoBehaviour
 
     public void DropWindow()
     {
-        if (grabbedWindow != null) grabbedWindow.transform.position = lastWindowPosition;
+        if (grabbedWindow != null)
+        {
+            if (grabbedWindow.transform.position.y <= minYAxis)
+            {
+                
+            }
+
+            grabbedWindow.transform.position = lastWindowPosition;
+        }
 
         grabbedWindow = null;
     }

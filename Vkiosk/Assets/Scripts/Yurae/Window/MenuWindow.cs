@@ -1,10 +1,10 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class Menu : Window
+public class MenuWindow : Window
 {
     [Header("Window Info")]
-    [SerializeField] private TextMeshProUGUI menuTitle;
+    [SerializeField] private TextMeshProUGUI menuName;
     [SerializeField] private TextMeshProUGUI menuDescription;
 
     /// <summary>
@@ -12,9 +12,9 @@ public class Menu : Window
     /// </summary>
     /// <param name="_title"></param>
     /// <param name="_description"></param>
-    public override void UpdateInfoToMenuWindow(string _title, string _description)
+    public void UpdateInfoToMenuWindow(string _menuName, string _description)
     {
-        menuTitle.text = _title;
+        menuName.text = _menuName;
         menuDescription.text = _description;
     }
 }

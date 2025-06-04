@@ -1,5 +1,6 @@
 ﻿// Unity
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [DisallowMultipleComponent]
 public class Window : MonoBehaviour
@@ -12,8 +13,8 @@ public class Window : MonoBehaviour
     private bool canGrab = false;
 
     private Quaternion initRotation;
-
-    private int windowID;               // 윈도우 ID
+   
+    private string windowID;               // 윈도우 ID
 
     private void Awake()
     {
@@ -32,7 +33,7 @@ public class Window : MonoBehaviour
     /// </summary>
     public void ActiveCurrentWindow()
     {
-        canGrab = true;
+        if(transform.parent.GetComponent<WindowManager>().windowMode == 1) canGrab = true;
         thisRenderer.material = selectedMaterial;
     }
 
@@ -58,7 +59,7 @@ public class Window : MonoBehaviour
     /// 윈도우 ID 설정 메소드
     /// </summary>
     /// <param name="_ID"></param>
-    public void SetWindowID(int _ID)
+    public void SetWindowID(string _ID)
     {
         windowID = _ID;
     }
@@ -67,11 +68,8 @@ public class Window : MonoBehaviour
     /// 윈도우 ID를 가져오기 위한 메소드
     /// </summary>
     /// <returns></returns>
-    public int GetWindowID()
+    public string GetWindowID()
     {
         return windowID;
     }
-
-    public virtual void UpdateInfoToCategoryWindow(string _title) { }
-    public virtual void UpdateInfoToMenuWindow(string _title, string _description) { }
 }

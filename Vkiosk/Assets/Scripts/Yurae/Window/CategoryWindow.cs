@@ -10,7 +10,7 @@ public class CategoryWindow : Window
     /// 윈도우 TMP 업데이트
     /// </summary>
     /// <param name="_title"></param>
-    public override void UpdateInfoToCategoryWindow(string _title)
+    public void UpdateInfoToCategoryWindow(string _title)
     {
         categoryTitle.text = _title;
     }

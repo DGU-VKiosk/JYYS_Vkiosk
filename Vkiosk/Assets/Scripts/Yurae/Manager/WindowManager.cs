@@ -10,11 +10,15 @@ using DG.Tweening;
 [DisallowMultipleComponent]
 public class WindowManager : MonoBehaviour
 {
+
     [SerializeField] private float rotationTime = 0.5f; // 회전 속도
     private Window[] windows;                           // 현재 갖고 있는 자식 창 오브젝트 배열
     private Window currentWindow;                       // 현재 Center 윈도우 컴포넌트
 
     private bool canRotate;                             // 회전 가능 여부를 판단하기 위한 변수
+
+    [Header("0: Category, 1: Menu")]
+    [Range(0,1)]public int windowMode;
 
     private void Start()
     {

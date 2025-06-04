@@ -29,7 +29,7 @@ public class ViewController : MonoBehaviour
         categoryPlacer.Place();
         categoryPlacer.transform.rotation = Quaternion.Euler(0, 0, 0);
 
-        foreach (WindowPlacer placer in menuPlacer)
+        foreach (MenuPlacer placer in menuPlacer)
         {
             placer.Place();
             placer.gameObject.SetActive(false);
@@ -40,13 +40,15 @@ public class ViewController : MonoBehaviour
 
     public void CategoryToMenu()
     {
+        int index = FindMatchedCategoryIDIndex();
+
         // 현재 메뉴 스페어가 활성화 되어 있거나, 없는 ID의 메뉴일 경우 Skip
-        if (currentMenuSphere != null || GetCurrentCategoryID() >= menuPlacer.Length) return;
+        if (currentMenuSphere != null || index == -1) return;
 
         categoryPlacer.gameObject.SetActive(false);
-        menuPlacer[GetCurrentCategoryID()].gameObject.SetActive(true);  // 현재 카테고리 ID에 해당하는 메뉴 오브젝트 활성화
+        menuPlacer[index].gameObject.SetActive(true);  // 현재 카테고리 ID에 해당하는 메뉴 오브젝트 활성화
 
-        currentMenuSphere = menuPlacer[GetCurrentCategoryID()].gameObject;
+        currentMenuSphere = menuPlacer[index].gameObject;
 
         headerTMP.text = "MENU";
     }
@@ -64,8 +66,18 @@ public class ViewController : MonoBehaviour
         headerTMP.text = "CATEGORY";
     }
 
-    private int GetCurrentCategoryID()
+    private string GetCurrentCategoryID()
     {
         return categoryWindow.GetCurrentWindow().GetWindowID();
+    }
+
+    private int FindMatchedCategoryIDIndex()
+    {
+        for (int i = 0; i < menuPlacer.Length; i++)
+        {
+            if (menuPlacer[i].GetCategoryID() == GetCurrentCategoryID()) return i;
+        }
+
+        return -1;
     }
 }

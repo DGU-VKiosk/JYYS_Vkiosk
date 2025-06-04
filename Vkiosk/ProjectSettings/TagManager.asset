@@ -42,3 +42,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Under Object
+    uniqueID: 3726317241
+    locked: 0
+  - name: Object
+    uniqueID: 732524817
+    locked: 0
+  - name: Above Object
+    uniqueID: 4143735287
+    locked: 0

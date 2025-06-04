@@ -4,7 +4,8 @@ using UnityEngine;
 [System.Serializable]
 public class CategoryWindowInfo
 {
-    public string title;
+    public string id;
+    public string name;
 }
 
 public class CategoryPlacer : WindowPlacer
@@ -15,7 +16,7 @@ public class CategoryPlacer : WindowPlacer
     /// <summary>
     /// 윈도우 배치 메소드 오버라이딩
     /// </summary>
-    public override void Place()
+    public void Place()
     {
         PlaceWindow(windows.Length, windowPrefab);
     }
@@ -25,8 +26,14 @@ public class CategoryPlacer : WindowPlacer
     /// </summary>
     /// <param name="_window"></param>
     /// <param name="_index"></param>
-    public override void InitWindow(Window _window, int _index)
+    public override void Init(GameObject _window, int _index)
     {
-        _window.UpdateInfoToCategoryWindow(windows[_index].title);
+        CategoryWindow categoryWindow = _window.GetComponent<CategoryWindow>();
+
+        if (categoryWindow != null)
+        {
+            categoryWindow.UpdateInfoToCategoryWindow(windows[_index].name);
+            categoryWindow.SetWindowID(windows[_index].id);
+        }
     }
 }

@@ -7,7 +7,9 @@ using UnityEngine;
 [System.Serializable]
 public class MenuWindowInfo
 {
-    public string title;
+    public string categoryID;
+    public string menuId;
+    public string name;
     public string description;
 }
 
@@ -16,10 +18,13 @@ public class MenuPlacer : WindowPlacer
     [SerializeField] private MenuWindowInfo[] windows;      // 윈도우 정보 클래스 배열
     [SerializeField] private GameObject windowPrefab;       // 윈도우 프리팹
 
+    [Header("카테고리 ID")]
+    [SerializeField] private string categoryID;
+
     /// <summary>
     /// 윈도우 배치 메소드 오버라이딩
     /// </summary>
-    public override void Place()
+    public void Place()
     {
         PlaceWindow(windows.Length, windowPrefab);
     }
@@ -29,8 +34,19 @@ public class MenuPlacer : WindowPlacer
     /// </summary>
     /// <param name="_window"></param>
     /// <param name="_index"></param>
-    public override void InitWindow(Window _window, int _index)
+    public override void Init(GameObject _window, int _index)
     {
-        _window.UpdateInfoToMenuWindow(windows[_index].title, windows[_index].description);
+        MenuWindow menuWindow = _window.GetComponent<MenuWindow>();
+
+        if (menuWindow != null)
+        {
+            menuWindow.UpdateInfoToMenuWindow(windows[_index].name, windows[_index].description);
+            menuWindow.SetWindowID(windows[_index].menuId);
+        }
+    }
+
+    public string GetCategoryID()
+    {
+        return categoryID;
     }
 }
