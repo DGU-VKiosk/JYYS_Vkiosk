@@ -1,4 +1,4 @@
-// Unity
+﻿// Unity
 using UnityEngine;
 
 // DOT
@@ -7,7 +7,6 @@ using DG.Tweening;
 [DisallowMultipleComponent]
 public class WindowManager : MonoBehaviour
 {
-    [Header("ȸ���� �ɸ��� �ð�")]
     [SerializeField] private float rotationTime = 0.5f;
     private Window[] windows;
     private Window currentWindow;

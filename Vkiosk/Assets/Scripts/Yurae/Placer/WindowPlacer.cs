@@ -1,4 +1,4 @@
-// Unity
+Ôªø// Unity
 using UnityEngine;
 
 public interface IWindowPlacer
@@ -10,8 +10,6 @@ public interface IWindowPlacer
 public abstract class WindowPlacer : MonoBehaviour, IWindowPlacer
 {
     [SerializeField] private WindowManager windowManager;
-
-    [Header("¡ﬂΩ…¿∏∑Œ∫Œ≈Õ ∞≈∏Æ")]
     [SerializeField] private float offSet;
 
     public virtual void Place() { }

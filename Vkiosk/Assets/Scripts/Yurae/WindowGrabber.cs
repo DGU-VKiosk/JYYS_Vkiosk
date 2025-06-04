@@ -1,4 +1,4 @@
-// Unity
+癤�// Unity
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -35,7 +35,7 @@ public class WindowGrabber : MonoBehaviour
             // if out is not null
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                if (hit.collider.CompareTag("Window")) // 윈도우 오브젝트만 반응
+                if (hit.collider.CompareTag("Window"))
                 {
                     Window window = hit.transform.GetComponent<Window>();
                     
