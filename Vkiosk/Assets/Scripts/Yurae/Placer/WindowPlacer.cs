@@ -1,19 +1,44 @@
 ﻿// Unity
 using UnityEngine;
 
+/// <summary>
+/// 윈도우를 배치하기 위한 인터페이스
+/// </summary>
 public interface IWindowPlacer
 {
+    /// <summary>
+    /// 윈도우 배치 메소드
+    /// </summary>
+    /// <param name="_windowCount"></param>
+    /// <param name="_prefab"></param>
     void PlaceWindow(int _windowCount, GameObject _prefab);
+
+    /// <summary>
+    /// 윈도우 초기화 메소드
+    /// </summary>
+    /// <param name="_window"></param>
+    /// <param name="_index"></param>
     void InitWindow(Window _window, int _index);
 }
 
+/// <summary>
+/// 윈도우 배치를 위한 추상 클래스 (IWindowPlacer Implement)
+/// </summary>
 public abstract class WindowPlacer : MonoBehaviour, IWindowPlacer
 {
     [SerializeField] private WindowManager windowManager;
     [SerializeField] private float offSet;
 
+    /// <summary>
+    /// 윈도우 배치에 대한 가상 메소드 (인터페이스 메소드)
+    /// </summary>
     public virtual void Place() { }
 
+    /// <summary>
+    /// 윈도우 배치 가상 메소드
+    /// </summary>
+    /// <param name="_windowCount"></param>
+    /// <param name="_prefab"></param>
     public virtual void PlaceWindow(int _windowCount, GameObject _prefab)
     {
         Transform reference = Camera.main.transform;
@@ -41,6 +66,11 @@ public abstract class WindowPlacer : MonoBehaviour, IWindowPlacer
         windowManager.InitWindows();
     }
 
+    /// <summary>
+    /// 윈도우 초기화를 위한 메소드 (인터페이스 메소드)
+    /// </summary>
+    /// <param name="_window"></param>
+    /// <param name="_index"></param>
     public virtual void InitWindow(Window _window, int _index) { }
 }
 

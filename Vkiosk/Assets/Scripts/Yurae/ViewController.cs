@@ -1,6 +1,6 @@
-// Unity
+﻿// Unity
 using UnityEngine;
-using DG.Tweening;
+using TMPro;
 
 public class ViewController : MonoBehaviour
 {
@@ -8,6 +8,7 @@ public class ViewController : MonoBehaviour
     [SerializeField] private WindowManager categoryWindow;
 
     [SerializeField] private MenuPlacer[] menuPlacer;
+    [SerializeField] private TextMeshProUGUI headerTMP;
 
     private GameObject currentMenuSphere;
     
@@ -33,15 +34,21 @@ public class ViewController : MonoBehaviour
             placer.Place();
             placer.gameObject.SetActive(false);
         }
+
+        categoryPlacer.gameObject.SetActive(false);
     }
 
     public void CategoryToMenu()
     {
+        // 현재 메뉴 스페어가 활성화 되어 있거나, 없는 ID의 메뉴일 경우 Skip
         if (currentMenuSphere != null || GetCurrentCategoryID() >= menuPlacer.Length) return;
 
         categoryPlacer.gameObject.SetActive(false);
-        menuPlacer[GetCurrentCategoryID()].gameObject.SetActive(true);
+        menuPlacer[GetCurrentCategoryID()].gameObject.SetActive(true);  // 현재 카테고리 ID에 해당하는 메뉴 오브젝트 활성화
+
         currentMenuSphere = menuPlacer[GetCurrentCategoryID()].gameObject;
+
+        headerTMP.text = "MENU";
     }
 
     public void MenuToCategory()
@@ -49,8 +56,12 @@ public class ViewController : MonoBehaviour
         if (currentMenuSphere == null) return;
 
         currentMenuSphere.SetActive(false);
+
         currentMenuSphere = null;
+
         categoryPlacer.gameObject.SetActive(true);
+
+        headerTMP.text = "CATEGORY";
     }
 
     private int GetCurrentCategoryID()

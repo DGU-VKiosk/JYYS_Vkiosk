@@ -1,7 +1,5 @@
-// Unity
+﻿// Unity
 using UnityEngine;
-
-using TMPro;
 
 [DisallowMultipleComponent]
 public class Window : MonoBehaviour
@@ -14,7 +12,8 @@ public class Window : MonoBehaviour
     private bool canGrab = false;
 
     private Quaternion initRotation;
-    private int windowID;
+
+    private int windowID;               // 윈도우 ID
 
     private void Awake()
     {
@@ -24,31 +23,50 @@ public class Window : MonoBehaviour
 
     private void LateUpdate()
     {
+        // 회전 값 고정 (부모 회전 값에 관여 받지 않음)
         transform.rotation = initRotation;
     }
 
-    public void SetCurrentWindow()
+    /// <summary>
+    /// 윈도우 활성화 메소드
+    /// </summary>
+    public void ActiveCurrentWindow()
     {
         canGrab = true;
         thisRenderer.material = selectedMaterial;
     }
 
-    public void CancelCurrentWindow()
+    /// <summary>
+    /// 윈도우 비활성화 메소드
+    /// </summary>
+    public void DeactiveCurrentWindow()
     {
         canGrab = false;
         thisRenderer.material = defaultMaterial;
     }
 
+    /// <summary>
+    /// 그랩 가능 여부 판단 메소드
+    /// </summary>
+    /// <returns></returns>
     public bool CanGrab()
     {
         return canGrab;
     }
 
+    /// <summary>
+    /// 윈도우 ID 설정 메소드
+    /// </summary>
+    /// <param name="_ID"></param>
     public void SetWindowID(int _ID)
     {
         windowID = _ID;
     }
 
+    /// <summary>
+    /// 윈도우 ID를 가져오기 위한 메소드
+    /// </summary>
+    /// <returns></returns>
     public int GetWindowID()
     {
         return windowID;

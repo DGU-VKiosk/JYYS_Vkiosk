@@ -291,8 +291,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: COFFE
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b2e3b8c0c7bebb84c88cff2b71e29f64, type: 2}
-  m_sharedMaterial: {fileID: -4811078545650049101, guid: b2e3b8c0c7bebb84c88cff2b71e29f64, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6320650e227f6b44ebdc3f45a222011c, type: 2}
+  m_sharedMaterial: {fileID: 7034006777586170172, guid: 6320650e227f6b44ebdc3f45a222011c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
