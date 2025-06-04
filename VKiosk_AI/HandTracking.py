@@ -114,12 +114,12 @@ def detect_hands(frame, person_boxes, registered_id, track_ids):
                             if cur_state != prev_state:
                                 print("default") 
 
-                prev_state = cur_state  # Update State
+                    prev_state = cur_state  # Update State
 
-                screen_x = int(criteria_idx.x * screen_w)   
-                screen_y = int(criteria_idx.y * screen_h)
+                    screen_x = int(criteria_idx.x * screen_w)   
+                    screen_y = int(criteria_idx.y * screen_h)
                     
-                pyautogui.moveTo(screen_x, screen_y, duration=0)
+                    pyautogui.moveTo(screen_x, screen_y, duration=0)
 
                 prev_positions[key] = (hand_x, hand_y)
     
