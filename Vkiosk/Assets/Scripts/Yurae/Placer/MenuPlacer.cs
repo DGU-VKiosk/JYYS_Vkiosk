@@ -7,10 +7,11 @@ using UnityEngine;
 [System.Serializable]
 public class MenuWindowInfo
 {
-    public string categoryID;
     public string menuId;
     public string name;
-    public string description;
+    public int price;
+    [TextArea] public string description;
+    public Sprite sprite;
 }
 
 public class MenuPlacer : WindowPlacer
@@ -40,8 +41,8 @@ public class MenuPlacer : WindowPlacer
 
         if (menuWindow != null)
         {
-            menuWindow.UpdateInfoToMenuWindow(windows[_index].name, windows[_index].description);
-            menuWindow.SetWindowID(windows[_index].menuId);
+            menuWindow.UpdateInfoToMenuWindow(windows[_index].name, windows[_index].price, windows[_index].description, windows[_index].sprite);
+            menuWindow.SetWindow(windows[_index].menuId, windows[_index].name, windows[_index].price, windows[_index].sprite);
         }
     }
 

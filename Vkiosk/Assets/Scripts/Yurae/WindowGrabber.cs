@@ -74,9 +74,22 @@ public class WindowGrabber : MonoBehaviour
     {
         if (grabbedWindow != null)
         {
+            // 장바구니에 넣기
             if (grabbedWindow.transform.position.y <= minYAxis)
             {
-                
+                Window window = grabbedWindow.transform.GetComponent<Window>();
+
+                if (window != null)
+                {
+                    // 메뉴 정보 로드
+                    string id = window.GetWindowID();
+                    string name = window.GetWindowName();
+                    int price = window.GetPrice();
+                    Sprite sprite = window.GetSprite();
+
+                    // 장바구니 추가
+                    cartManager.AddCart(id, name, price, sprite);
+                }
             }
 
             grabbedWindow.transform.position = lastWindowPosition;

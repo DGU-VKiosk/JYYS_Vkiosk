@@ -6,6 +6,8 @@ public class CategoryWindowInfo
 {
     public string id;
     public string name;
+    public int price;
+    public Sprite sprite;
 }
 
 public class CategoryPlacer : WindowPlacer
@@ -32,8 +34,8 @@ public class CategoryPlacer : WindowPlacer
 
         if (categoryWindow != null)
         {
-            categoryWindow.UpdateInfoToCategoryWindow(windows[_index].name);
-            categoryWindow.SetWindowID(windows[_index].id);
+            categoryWindow.UpdateInfoToCategoryWindow(windows[_index].name, windows[_index].sprite);
+            categoryWindow.SetWindow(windows[_index].id, windows[_index].name, windows[_index].price, windows[_index].sprite);
         }
     }
 }

@@ -14,7 +14,10 @@ public class Window : MonoBehaviour
 
     private Quaternion initRotation;
    
-    private string windowID;               // 윈도우 ID
+    private string windowID;
+    private string windowName;
+    private int price;
+    private Sprite sprite;
 
     private void Awake()
     {
@@ -59,9 +62,12 @@ public class Window : MonoBehaviour
     /// 윈도우 ID 설정 메소드
     /// </summary>
     /// <param name="_ID"></param>
-    public void SetWindowID(string _ID)
+    public void SetWindow(string _id, string _name, int _price, Sprite _sprite)
     {
-        windowID = _ID;
+        windowID = _id;
+        windowName = _name;
+        price = _price;
+        sprite = _sprite;
     }
 
     /// <summary>
@@ -71,5 +77,20 @@ public class Window : MonoBehaviour
     public string GetWindowID()
     {
         return windowID;
+    }
+
+    public string GetWindowName()
+    {
+        return windowName;
+    }
+
+    public int GetPrice()
+    {
+        return price;
+    }
+
+    public Sprite GetSprite()
+    {
+        return sprite;
     }
 }

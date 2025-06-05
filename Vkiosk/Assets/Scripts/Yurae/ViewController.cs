@@ -15,7 +15,7 @@ public class ViewController : MonoBehaviour
 
     private void Start()
     {
-        Init();
+        Place();
     }
 
     private void Update()
@@ -25,6 +25,11 @@ public class ViewController : MonoBehaviour
     }
 
     public void Init()
+    {
+        currentMenuSphere = null;
+    }
+
+    public void Place()
     {
         categoryPlacer.Place();
         categoryPlacer.transform.rotation = Quaternion.Euler(0, 0, 0);
