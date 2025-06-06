@@ -50,6 +50,9 @@ public class UIManager : MonoBehaviour
     [Header("Sound Manager")]
     [SerializeField] private SoundManager soundManager;
 
+    [Header("Session Manager")]
+    [SerializeField] private SessionManager sessionManager;
+
     private int orderNumber;
 
     private void Start()
@@ -90,6 +93,9 @@ public class UIManager : MonoBehaviour
 
         categorySphere.SetActive(true);
         udpReceiver.SetActive(true);
+
+        sessionManager.StartSession();
+        sessionManager.ResumeSession();
     }
 
     public void GoStartMenu()
@@ -112,6 +118,8 @@ public class UIManager : MonoBehaviour
         udpReceiver.SetActive(false);
         cartManager.Init();
         viewController.Init();
+
+        sessionManager.StopSession();
     }
 
     public void GoPay()
@@ -137,6 +145,8 @@ public class UIManager : MonoBehaviour
 
         cartCanvas.SetActive(true);
         viewController.Init();
+
+        sessionManager.StopSession();
     }
 
     public void PayToMain()
@@ -157,6 +167,9 @@ public class UIManager : MonoBehaviour
             grid.transform.localScale = Vector3.one;
             grid.transform.localEulerAngles = Vector3.zero;
         }
+
+        sessionManager.StartSession();
+        sessionManager.ResumeSession();
     }
 
     public void PayComplete()
@@ -169,7 +182,6 @@ public class UIManager : MonoBehaviour
         payCanvas.SetActive(true);
 
         soundManager.PayCompleteSound();
-
         Invoke("GoStartMenu", 5f);
     }
 }

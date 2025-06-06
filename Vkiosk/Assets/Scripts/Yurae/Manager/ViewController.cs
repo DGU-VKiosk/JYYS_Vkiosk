@@ -10,6 +10,7 @@ public class ViewController : MonoBehaviour
     [SerializeField] private MenuPlacer[] menuPlacer;
     [SerializeField] private TextMeshProUGUI headerTMP;
 
+    [SerializeField] private SessionManager sessionManager;
     private GameObject currentMenuSphere;
     
 
@@ -56,6 +57,8 @@ public class ViewController : MonoBehaviour
         currentMenuSphere = menuPlacer[index].gameObject;
 
         headerTMP.text = "MENU";
+
+        sessionManager.StartSession();
     }
 
     public void MenuToCategory()
@@ -69,6 +72,8 @@ public class ViewController : MonoBehaviour
         categoryPlacer.gameObject.SetActive(true);
 
         headerTMP.text = "CATEGORY";
+
+        sessionManager.StartSession();
     }
 
     private string GetCurrentCategoryID()
