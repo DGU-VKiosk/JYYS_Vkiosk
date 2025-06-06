@@ -6,6 +6,9 @@ from UserRegister import user_registration, user_unregisteration, draw_zone
 import cv2
 import time
 
+import threading
+import socket
+
 # Initialize
 zone = (440, 160, 880, 560) # Cognition Zone
 cap = init_camera(0)        # Video Capture
@@ -15,7 +18,17 @@ registered_box = None
 boxes = []
 track_ids = []
 
-prev_time = time.time()
+unity_msg = None
+
+def listen_unity():
+    global unity_msg
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.bind(("0.0.0.0", 5056))
+    while True:
+        data, _ = sock.recvfrom(1024)
+        unity_msg = data.decode('utf-8')
+
+threading.Thread(target=listen_unity, daemon=True).start()
 
 while True:
     start_time = time.time()        
@@ -23,10 +36,14 @@ while True:
 
     boxes, track_ids = track_persons(frame) # Get Person's box and id
 
+    if unity_msg == "complete":
+        registered_id = None
+        unity_msg = None
+
     # Update registered id
     if registered_id is None:
         draw_zone(frame, zone)                                              # Draw cognition zone
-        registered_id = user_registration(boxes, zone, track_ids)           # Wait user registration
+        registered_id = user_registration(boxes, zone, track_ids, frame)
     else:
         detect_hands(frame, boxes, registered_id, track_ids)                # Detect hands
         registered_id = user_unregisteration(registered_id, track_ids)      # Wait user unregistration

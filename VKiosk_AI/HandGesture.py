@@ -26,3 +26,7 @@ def is_swip(pre_x, cur_x, pre_y, cur_y, landmarks):
             
 def is_index(landmarks):
     return landmarks[8].y < landmarks[6].y and all(landmarks[tip].y > landmarks[tip - 2].y for tip in [12, 16, 20])
+
+def is_HandsUp(landmarks):
+    tips = [8, 12, 16, 20]
+    return all(landmarks[tip].y < landmarks[tip-2].y for tip in tips)

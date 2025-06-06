@@ -6,10 +6,25 @@ public class GestureManager : MonoBehaviour
 {
     [SerializeField] private WindowGrabber windowGrabber;
     [SerializeField] private ViewController sphereController;
+    [SerializeField] private UIManager uiManager;
+
+    private bool isStart;
+
+    private void Start()
+    {
+        isStart = false;
+    }
 
     public void UpdateGestureFromNetwork(string gesture)
     {
         WindowManager windowManager = FindObjectOfType<WindowManager>();
+
+        if (gesture == "start")
+        {
+            isStart = true;
+            uiManager.StartToSelect();
+        }
+        if (!isStart) return;
 
         switch (gesture)
         {

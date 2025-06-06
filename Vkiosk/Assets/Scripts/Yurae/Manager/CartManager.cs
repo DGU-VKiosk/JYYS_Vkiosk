@@ -71,7 +71,7 @@ public class CartManager : MonoBehaviour
             cartDict[_id] = (cartDict[_id].info, cartDict[_id].count + 1);
 
             cartDict[_id].info.totalPrice = cartDict[_id].count * cartDict[_id].info.price;
-            cartDict[_id].info.menuGrid.SetCount(cartDict[_id].count.ToString(), cartDict[_id].info.totalPrice.ToString());
+            cartDict[_id].info.menuGrid.SetCount(cartDict[_id].count.ToString(), cartDict[_id].info.totalPrice.ToString("N0"));
 
             UpdateTotalPriceTMP();
         }
@@ -86,7 +86,7 @@ public class CartManager : MonoBehaviour
             cartDict[_id].info.menuGrid.Init(_name);
 
             cartDict[_id].info.totalPrice = cartDict[_id].count * cartDict[_id].info.price;
-            cartDict[_id].info.menuGrid.SetCount(cartDict[_id].count.ToString(), cartDict[_id].info.totalPrice.ToString());
+            cartDict[_id].info.menuGrid.SetCount(cartDict[_id].count.ToString(), cartDict[_id].info.totalPrice.ToString("N0"));
 
             cartDict[_id].info.menuGrid.SetAddButton(()=>AddCart(_id, _name, _price, _sprite));
             cartDict[_id].info.menuGrid.SetRemoveButton(() => RemoveCart(_id));
@@ -121,7 +121,7 @@ public class CartManager : MonoBehaviour
                 cartDict[_id] = (info, count - 1);
 
                 cartDict[_id].info.totalPrice = cartDict[_id].count * cartDict[_id].info.price;
-                cartDict[_id].info.menuGrid.SetCount(cartDict[_id].count.ToString(), cartDict[_id].info.totalPrice.ToString());
+                cartDict[_id].info.menuGrid.SetCount(cartDict[_id].count.ToString(), cartDict[_id].info.totalPrice.ToString("N0"));
                 UpdateTotalPriceTMP();
             }
         }
@@ -140,6 +140,6 @@ public class CartManager : MonoBehaviour
             totalPrice += cartDict[kvp.Key].info.totalPrice; 
         }
 
-        totalPriceTMP.text = totalPrice.ToString() + "원";
+        totalPriceTMP.text = totalPrice.ToString("N0") + "원";
     }
 }

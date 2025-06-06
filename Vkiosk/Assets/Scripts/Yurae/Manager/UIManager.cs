@@ -53,6 +53,9 @@ public class UIManager : MonoBehaviour
     [Header("Session Manager")]
     [SerializeField] private SessionManager sessionManager;
 
+    [Header("Python Sender")]
+    [SerializeField] private PythonSender pythonSender;
+
     private int orderNumber;
 
     private void Start()
@@ -66,10 +69,6 @@ public class UIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             StartToSelect();
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            GoStartMenu();
         }
     }
 
@@ -115,7 +114,6 @@ public class UIManager : MonoBehaviour
         }
 
         categorySphere.SetActive(false);
-        udpReceiver.SetActive(false);
         cartManager.Init();
         viewController.Init();
 
@@ -180,6 +178,8 @@ public class UIManager : MonoBehaviour
 
         cartCanvas.SetActive(false);
         payCanvas.SetActive(true);
+
+        pythonSender.SendMessageToPython("complete");   
 
         soundManager.PayCompleteSound();
         Invoke("GoStartMenu", 5f);
