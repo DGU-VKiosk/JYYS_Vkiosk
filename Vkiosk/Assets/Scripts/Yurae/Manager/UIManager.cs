@@ -1,6 +1,9 @@
 ﻿// Unity
 using UnityEngine;
 
+using System;
+using TMPro;
+
 [DisallowMultipleComponent]
 public class UIManager : MonoBehaviour
 {
@@ -18,6 +21,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Cart Canvas")]
     [SerializeField] private GameObject cartCanvas;
+
+    [Header("Pay Complete Canvas")]
+    [SerializeField] private GameObject payCanvas;
 
     [Header("Menw Sphere")]
     [SerializeField] private GameObject[] menuSpheres;
@@ -39,6 +45,11 @@ public class UIManager : MonoBehaviour
 
     [Header("Pay Frame Content")]
     [SerializeField] private RectTransform payContent;
+
+    [Header("Order Number TMP")]
+    [SerializeField] private TextMeshProUGUI orderNumTMP;
+
+    private int orderNumber;
 
     private void Start()
     {
@@ -80,6 +91,7 @@ public class UIManager : MonoBehaviour
         headerCanvas.SetActive(false);
         floorCanvas.SetActive(false);
         cartCanvas.SetActive(false);
+        payCanvas.SetActive(false);
 
         foreach (GameObject sphere in menuSpheres)
         {
@@ -135,5 +147,17 @@ public class UIManager : MonoBehaviour
             grid.transform.localScale = Vector3.one;
             grid.transform.localEulerAngles = Vector3.zero;
         }
+    }
+
+    public void PayComplete()
+    {
+        orderNumber++;
+        string formatted = orderNumber.ToString("D3");
+        orderNumTMP.text = formatted;
+
+        cartCanvas.SetActive(false);
+        payCanvas.SetActive(true);
+
+        Invoke("GoStartMenu", 5f);
     }
 }
