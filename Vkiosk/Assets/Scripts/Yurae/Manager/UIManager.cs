@@ -1,7 +1,5 @@
 ﻿// Unity
 using UnityEngine;
-
-using System;
 using TMPro;
 
 [DisallowMultipleComponent]
@@ -49,11 +47,15 @@ public class UIManager : MonoBehaviour
     [Header("Order Number TMP")]
     [SerializeField] private TextMeshProUGUI orderNumTMP;
 
+    [Header("Sound Manager")]
+    [SerializeField] private SoundManager soundManager;
+
     private int orderNumber;
 
     private void Start()
     {
         GoStartMenu();
+        soundManager.DetectedPerson();
     }
 
     private void Update()
@@ -70,12 +72,18 @@ public class UIManager : MonoBehaviour
 
     public void StartToSelect()
     {
+        soundManager.StopSound();
+
         startCanvas.SetActive(false);
         selectCanvas.SetActive(true);
+
+        soundManager.SelectButtonSound();
     }
 
     public void SelectToMain()
     {
+        soundManager.StopSound();
+
         selectCanvas.SetActive(false);
         headerCanvas.SetActive(true);
         floorCanvas.SetActive(true);
@@ -86,6 +94,8 @@ public class UIManager : MonoBehaviour
 
     public void GoStartMenu()
     {
+        soundManager.StopSound();
+
         startCanvas.SetActive(true);
         selectCanvas.SetActive(false);
         headerCanvas.SetActive(false);
@@ -157,6 +167,8 @@ public class UIManager : MonoBehaviour
 
         cartCanvas.SetActive(false);
         payCanvas.SetActive(true);
+
+        soundManager.PayCompleteSound();
 
         Invoke("GoStartMenu", 5f);
     }
