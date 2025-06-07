@@ -56,6 +56,12 @@ public class UIManager : MonoBehaviour
     [Header("Python Sender")]
     [SerializeField] private PythonSender pythonSender;
 
+    [Header("Category Guide")]
+    [SerializeField] private TextMeshProUGUI categoryGuide;
+
+    [Header("Menu Guide")]
+    [SerializeField] private TextMeshProUGUI menuGuide;
+
     private int orderNumber;
 
     private void Start()
@@ -107,6 +113,8 @@ public class UIManager : MonoBehaviour
         floorCanvas.SetActive(false);
         cartCanvas.SetActive(false);
         payCanvas.SetActive(false);
+        menuGuide.gameObject.SetActive(false);
+        categoryGuide.gameObject.SetActive(true);
 
         foreach (GameObject sphere in menuSpheres)
         {

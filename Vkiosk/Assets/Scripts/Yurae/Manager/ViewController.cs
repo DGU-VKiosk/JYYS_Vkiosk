@@ -11,6 +11,12 @@ public class ViewController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI headerTMP;
 
     [SerializeField] private SessionManager sessionManager;
+
+    [Header("Category Guide")]
+    [SerializeField] private TextMeshProUGUI categoryGuide;
+
+    [Header("Menu Guide")]
+    [SerializeField] private TextMeshProUGUI menuGuide;
     private GameObject currentMenuSphere;
     
 
@@ -59,6 +65,8 @@ public class ViewController : MonoBehaviour
         headerTMP.text = "MENU";
 
         sessionManager.StartSession();
+        categoryGuide.gameObject.SetActive(false);
+        menuGuide.gameObject.SetActive(true);
     }
 
     public void MenuToCategory()
@@ -74,6 +82,9 @@ public class ViewController : MonoBehaviour
         headerTMP.text = "CATEGORY";
 
         sessionManager.StartSession();
+
+        categoryGuide.gameObject.SetActive(true);
+        menuGuide.gameObject.SetActive(false);
     }
 
     private string GetCurrentCategoryID()

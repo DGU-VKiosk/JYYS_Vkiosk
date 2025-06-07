@@ -70,10 +70,12 @@ def user_registration(person_boxes, zone, track_ids, frame):
 def user_unregisteration(current_id, track_ids): 
     if current_id not in track_ids:
         print("User missing")
+        send_gesture("disconnect")
         return None
     
     if cv2.waitKey(1) & 0xFF == ord('r'):
         print("User registration force initialized")
+        send_gesture("disconnect")
         return None
     
     return current_id
