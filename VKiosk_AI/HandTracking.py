@@ -70,25 +70,25 @@ def detect_hands(frame, person_boxes, registered_id, track_ids):
                         
                     elif is_swip(prev_x, hand_x, prev_y, hand_y, hand_landmarks.landmark) == "right":
                         cur_state = "right_swipe"
-                        if cur_state != prev_state:
+                        if prev_state != "left_swipe" and prev_state != "up_swipe" and prev_state != "down_swipe" and cur_state != prev_state:
                             send_gesture(cur_state)
                             print(cur_state)
 
                     elif is_swip(prev_x, hand_x, prev_y, hand_y, hand_landmarks.landmark) == "left":
                         cur_state = "left_swipe"
-                        if cur_state != prev_state:
+                        if prev_state != "right_swipe" and prev_state != "up_swipe" and prev_state != "down_swipe" and cur_state != prev_state:
                             send_gesture(cur_state)
                             print(cur_state)
                         
                     elif is_swip(prev_x, hand_x, prev_y, hand_y, hand_landmarks.landmark) == "up":
                         cur_state = "up_swipe"
-                        if cur_state != prev_state:
+                        if prev_state != "left_swipe" and prev_state != "right_swipe" and prev_state != "down_swipe" and cur_state != prev_state:
                             send_gesture(cur_state)
                             print(cur_state)
                         
                     elif is_swip(prev_x, hand_x, prev_y, hand_y, hand_landmarks.landmark) == "down":
                         cur_state = "down_swipe"
-                        if cur_state != prev_state:
+                        if prev_state != "right_swipe" and prev_state != "up_swipe" and prev_state != "left_swipe" and cur_state != prev_state:
                             send_gesture(cur_state)
                             print(cur_state)  
 
@@ -98,7 +98,6 @@ def detect_hands(frame, person_boxes, registered_id, track_ids):
                             if prev_state == "grab":
                                 send_gesture("drop")
                             print(cur_state)
-                        
                         
                     else:
                         # Drop
