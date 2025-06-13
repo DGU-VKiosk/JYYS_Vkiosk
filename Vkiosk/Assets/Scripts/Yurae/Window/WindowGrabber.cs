@@ -75,7 +75,7 @@ public class WindowGrabber : MonoBehaviour
         if (grabbedWindow != null)
         {
             // 장바구니에 넣기
-            if (grabbedWindow.transform.position.y <= minYAxis)
+            if (grabbedWindow.transform.localPosition.y <= minYAxis)
             {
                 Window window = grabbedWindow.transform.GetComponent<Window>();
 

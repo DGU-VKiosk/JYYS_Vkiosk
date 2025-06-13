@@ -4638,7 +4638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08d11a88b37955548b05d1f84ac1d366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minYAxis: -0.2
+  minYAxis: -0.4
   cartManager: {fileID: 25649500}
 --- !u!114 &1383827199
 MonoBehaviour:
