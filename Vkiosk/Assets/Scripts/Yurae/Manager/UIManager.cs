@@ -67,7 +67,6 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         GoStartMenu();
-        soundManager.DetectedPerson();
     }
 
     private void Update()
@@ -106,6 +105,9 @@ public class UIManager : MonoBehaviour
     public void GoStartMenu()
     {
         soundManager.StopSound();
+        soundManager.DetectedPerson();
+
+        pythonSender.SendMessageToPython("complete");
 
         startCanvas.SetActive(true);
         selectCanvas.SetActive(false);
@@ -186,8 +188,6 @@ public class UIManager : MonoBehaviour
 
         cartCanvas.SetActive(false);
         payCanvas.SetActive(true);
-
-        pythonSender.SendMessageToPython("complete");   
 
         soundManager.PayCompleteSound();
         Invoke("GoStartMenu", 5f);
